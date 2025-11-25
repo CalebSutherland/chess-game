@@ -1,8 +1,8 @@
 namespace ChessGame.Board;
 
-class Square(int x, int y)
+class Square(int row, int col)
 {
-    public int X { get; } = x;
-    public int Y { get; } = y;
+  public int Row { get; } = row;
+  public int Col { get; } = col;
 }
 
