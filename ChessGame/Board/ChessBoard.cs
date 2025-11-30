@@ -1,23 +1,30 @@
 using ChessGame.Types;
 using ChessGame.Pieces;
+using ChessGame.Parsers;
 
 namespace ChessGame.Board;
 
-class ChessBoard
+public class ChessBoard
 {
   public int Size { get; } = 8;
-  public Piece?[,] Grid { get; }
+  public string Fen { get; set; }
+  public Piece?[,] Grid;
+  public Color Turn { get; }
+  public CastlingRights Castling { get; }
+  public Square? EnPassant { get; }
+  public int Halfmove { get; }
+  public int Fullmove { get; }
 
-  public ChessBoard()
+  public ChessBoard(string fen = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1")
   {
-    Piece?[,] grid = new Piece?[8, 8];
-    for (int i = 0; i < Size; i++)
-    {
-      grid[0, i] = new Rook(Color.Black);
-      grid[7, i] = new Rook(Color.White);
-    }
-      grid[1, 0] = new Queen(Color.Black);
-    Grid = grid;
+    string[] fenParts = fen.Split(" ");
+    Fen = fen;
+    Grid = BoardParser.Deserialize(fenParts[0]);
+    Turn = fenParts[1] == "b" ? Color.Black : Color.White;
+    Castling = CastlingParser.Deserialize(fenParts[2]);
+    EnPassant = SquareParser.Deserialize(fenParts[3]);
+    Halfmove = int.Parse(fenParts[4]);
+    Fullmove = int.Parse(fenParts[5]);
   }
 
   public bool IsValidSquare(Square square)
@@ -38,7 +45,7 @@ class ChessBoard
     return null;
   }
 
-  public void SetPiece(Square square, Piece piece)
+  public void SetPiece(Square square, Piece? piece)
   {
     if (IsValidSquare(square))
     {
@@ -46,15 +53,20 @@ class ChessBoard
     }
   }
 
+  public ChessBoard Copy()
+  {
+    return new ChessBoard(Fen);
+  }
+
   public void DisplayBoard()
   {
     Console.WriteLine("  | a b c d e f g h |");
     Console.WriteLine("-----------------------");
-    for (int i = 0; i < 8; i++)
+    for (int i = 0; i < Size; i++)
     {
       Console.Write(8 - i);
       Console.Write(" | ");
-      for (int j = 0; j < 8; j++)
+      for (int j = 0; j < Size; j++)
       {
         Piece? piece = Grid[i, j];
         if (piece == null)

@@ -1,6 +1,6 @@
 namespace ChessGame.Types;
 
-enum Color
+public enum Color
 {
   White,
   Black,

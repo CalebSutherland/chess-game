@@ -3,7 +3,7 @@ using ChessGame.Board;
 
 namespace ChessGame.Pieces;
 
-class Rook(Color color) : Piece(color)
+public class Rook(Color color) : Piece(color)
 {
   public override char Symbol { get; } = 'r';
   public override PieceType Type { get; } = PieceType.Rook;

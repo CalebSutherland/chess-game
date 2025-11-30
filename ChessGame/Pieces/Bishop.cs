@@ -3,7 +3,7 @@ using ChessGame.Board;
 
 namespace ChessGame.Pieces;
 
-class Bishop(Color color) : Piece(color)
+public class Bishop(Color color) : Piece(color)
 {
   public override char Symbol { get; } = 'b';
   public override PieceType Type { get; } = PieceType.Bishop;

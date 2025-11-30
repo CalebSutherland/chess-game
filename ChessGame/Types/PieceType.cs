@@ -1,6 +1,6 @@
 namespace ChessGame.Types;
 
-enum PieceType
+public enum PieceType
 {
   Pawn,
   Rook,

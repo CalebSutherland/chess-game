@@ -3,7 +3,7 @@ using ChessGame.Board;
 
 namespace ChessGame.Pieces;
 
-class Knight(Color color) : Piece(color)
+public class Knight(Color color) : Piece(color)
 {
   public override char Symbol { get; } = 'n';
   public override PieceType Type { get; } = PieceType.Knight;

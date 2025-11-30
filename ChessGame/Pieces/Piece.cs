@@ -3,7 +3,7 @@ using ChessGame.Board;
 
 namespace ChessGame.Pieces;
 
-abstract class Piece(Color color)
+public abstract class Piece(Color color)
 {
   public Color Color { get; } = color;
   public abstract PieceType Type { get; }
