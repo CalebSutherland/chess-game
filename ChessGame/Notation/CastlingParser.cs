@@ -1,6 +1,6 @@
 using ChessGame.Board;
 
-namespace ChessGame.Parsers;
+namespace ChessGame.Notation;
 
 public static class CastlingParser
 {

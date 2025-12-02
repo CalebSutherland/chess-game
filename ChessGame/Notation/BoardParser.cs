@@ -1,7 +1,7 @@
 using ChessGame.Pieces;
 using ChessGame.Types;
 
-namespace ChessGame.Parsers;
+namespace ChessGame.Notation;
 
 public static class BoardParser
 {

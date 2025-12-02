@@ -1,25 +1,43 @@
-﻿using ChessGame.Board;
-using ChessGame.Parsers;
-using ChessGame.Pieces;
+﻿using ChessGame;
+using ChessGame.Board;
 
-ChessBoard board = new();
-board.DisplayBoard();
-string fen = BoardParser.Serialize(board.Grid);
-Console.WriteLine(fen);
+Game game = new(new ChessBoard());
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
 
-ChessBoard copy = board.Copy();
+Square start = new(7, 1);
+Square end = new(5, 2);
 
-Square start = new(1, 4);
-Square end = new(3, 4);
+Move move = new(start, end);
+Console.WriteLine(game.MakeMove(move));
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
 
-Piece? piece = copy.GetPiece(start);
-copy.SetPiece(end, piece);
-copy.SetPiece(start, null);
+start = new(0, 1);
+end = new(2, 2);
+move = new(start, end);
+Console.WriteLine(game.MakeMove(move));
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
 
-copy.DisplayBoard();
-fen = BoardParser.Serialize(copy.Grid);
-Console.WriteLine(fen);
+start = new(6, 4);
+end = new(4, 4);
+move = new(start, end);
+Console.WriteLine(game.MakeMove(move));
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
 
-board.DisplayBoard();
-fen = BoardParser.Serialize(board.Grid);
-Console.WriteLine(fen);
+start = new(1, 4);
+end = new(3, 4);
+move = new(start, end);
+Console.WriteLine(game.MakeMove(move));
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+start = new(6, 5);
+end = new(5, 5);
+move = new(start, end);
+Console.WriteLine(game.MakeMove(move));
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+

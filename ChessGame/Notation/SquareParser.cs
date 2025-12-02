@@ -1,6 +1,6 @@
 using ChessGame.Board;
 
-namespace ChessGame.Parsers;
+namespace ChessGame.Notation;
 
 public static class SquareParser
 {
@@ -23,8 +23,10 @@ public static class SquareParser
     
   }
 
-  public static string Serialize(Square square)
+  public static string Serialize(Square? square)
   {
+    if (square == null) return "-";
+
     char file = (char)('a' + square.Col);
     char rank = (char)('1' + (7 - square.Row));
     return $"{file}{rank}"; 

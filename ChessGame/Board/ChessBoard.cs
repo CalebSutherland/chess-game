@@ -1,24 +1,22 @@
 using ChessGame.Types;
 using ChessGame.Pieces;
-using ChessGame.Parsers;
+using ChessGame.Notation;
 
 namespace ChessGame.Board;
 
 public class ChessBoard
 {
   public int Size { get; } = 8;
-  public string Fen { get; set; }
   public Piece?[,] Grid;
-  public Color Turn { get; }
+  public Color Turn { get; set; }
   public CastlingRights Castling { get; }
-  public Square? EnPassant { get; }
+  public Square? EnPassant { get; set; }
   public int Halfmove { get; }
   public int Fullmove { get; }
 
-  public ChessBoard(string fen = "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1")
+  public ChessBoard(string fen = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1")
   {
     string[] fenParts = fen.Split(" ");
-    Fen = fen;
     Grid = BoardParser.Deserialize(fenParts[0]);
     Turn = fenParts[1] == "b" ? Color.Black : Color.White;
     Castling = CastlingParser.Deserialize(fenParts[2]);
@@ -29,11 +27,12 @@ public class ChessBoard
 
   public bool IsValidSquare(Square square)
   {
-    if (square.Row < 0 || square.Row >= Size || square.Col < 0 || square.Col >= Size)
-    {
-      return false;
-    }
-    return true;
+    return square.Row >= 0 && square.Row < Size && square.Col >= 0 && square.Col < Size;
+  }
+
+  public bool IsValidMove(Move move)
+  {
+    return IsValidSquare(move.Start) && IsValidSquare(move.End);
   }
 
   public Piece? GetPiece(Square square)
@@ -53,10 +52,35 @@ public class ChessBoard
     }
   }
 
+  public void MovePiece(Move move)
+  {
+    if (IsValidMove(move))
+    {
+      Piece? piece = GetPiece(move.Start);
+      if (piece != null)
+      {
+        SetPiece(move.End, piece);
+        SetPiece(move.Start, null);
+      }
+    }
+  }
+
   public ChessBoard Copy()
   {
-    return new ChessBoard(Fen);
+    return new ChessBoard(Serialize());
   }
+
+  public string Serialize()
+{
+    string board = BoardParser.Serialize(Grid);
+    string turn = Turn == Color.White ? "w" : "b";
+    string castling = CastlingParser.Serialize(Castling);
+    string enPassant = SquareParser.Serialize(EnPassant);
+    string half = Halfmove.ToString();
+    string full = Fullmove.ToString();
+
+    return $"{board} {turn} {castling} {enPassant} {half} {full}";
+}
 
   public void DisplayBoard()
   {

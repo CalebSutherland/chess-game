@@ -1,7 +1,3 @@
 namespace ChessGame.Board;
 
-public class Move(Square start, Square end)
-{
-  public Square Start { get; } = start;
-  public Square End { get; } = end;
-}
+public record Move(Square Start, Square End);

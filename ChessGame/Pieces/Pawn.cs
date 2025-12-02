@@ -14,7 +14,7 @@ public class Pawn(Color color) : Piece(color)
 
     int direction = Color == Color.White ? -1 : 1;
     int startRow = Color == Color.White ? 6 : 1;
-    int nextRow = startRow + direction;
+    int nextRow = square.Row + direction;
 
     Square oneSquare = new(nextRow, square.Col);
     if (board.IsValidSquare(oneSquare) && board.GetPiece(oneSquare) == null)
