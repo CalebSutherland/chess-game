@@ -9,10 +9,17 @@ class NormalMoveHandler : MoveHandler
   public override bool HandleMove(Move move, ChessBoard board)
   {
     MoveValidator validator = new(board);
-    if (!validator.IsLegalMove(move)) return false;
+    if (!validator.IsLegalMove(move))
+    {
+      return false;
+    } 
 
     Piece? piece = board.GetPiece(move.Start);
-    if (piece == null) return false;
+    if (piece == null)
+    {
+      Console.WriteLine("Illegal move - No piece on starting square");
+      return false;
+    } 
 
     int startingRow = piece.Color == Color.White ? 6 : 1;
     if (piece.Type == PieceType.Pawn && move.Start.Row == startingRow 

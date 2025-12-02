@@ -17,7 +17,11 @@ public class CastlingHandler : MoveHandler
     if (piece.Type == PieceType.King && (isKingSide || isQueenSide))
     {
       // Cant castle while in check
-      if (MoveValidator.IsKingInCheck(piece.Color, board)) return false;
+      if (MoveValidator.IsKingInCheck(piece.Color, board))
+      {
+        Console.WriteLine("Illegal castle - Can't castle while king is in check");
+        return false;
+      } 
 
       if (piece.Color == Color.White)
       {
@@ -66,6 +70,7 @@ public class CastlingHandler : MoveHandler
     if (board.GetPiece(new Square(row, 5)) != null || 
       board.GetPiece(new Square(row, 6)) != null)
     {
+      Console.WriteLine("Illegal castle - Spaces between king and rook must be empty");
       return false;
     }
 
@@ -77,6 +82,7 @@ public class CastlingHandler : MoveHandler
      if (attackedSquares.Contains(new Square(row, 5)) || 
         attackedSquares.Contains(new Square(row, 6)))
     {
+      Console.WriteLine("Illegal castle - King can't castle through attacking peice");
       return false;
     }
 
@@ -89,6 +95,7 @@ public class CastlingHandler : MoveHandler
         board.GetPiece(new Square(row, 2)) != null || 
         board.GetPiece(new Square(row, 3)) != null)
     {
+      Console.WriteLine("Illegal castle - Spaces between king and rook must be empty");
       return false;
     }
 
@@ -99,6 +106,7 @@ public class CastlingHandler : MoveHandler
     if (attackedSquares.Contains(new Square(row, 2)) || 
         attackedSquares.Contains(new Square(row, 3)))
     {
+      Console.WriteLine("Illegal castle - King can't castle through attacking peice");
       return false;
     }
 

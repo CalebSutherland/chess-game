@@ -60,19 +60,31 @@ public class MoveValidator(ChessBoard board)
 
   public bool IsLegalMove(Move move)
   {
-    if (!_board.IsValidMove(move)) return false;
+    if (!_board.IsValidMove(move))
+    {
+      Console.WriteLine("Illegal move - Move out of board range");
+      return false;
+    } 
 
     ChessBoard copy = _board.Copy();
     Piece? piece = copy.GetPiece(move.Start);
 
-    if (piece == null || piece.Color != copy.Turn || !piece.GetMoves(move.Start, copy).Contains(move.End))
+    if (piece == null || piece.Color != copy.Turn)
     {
+      Console.WriteLine("Illegal move - Invalid peice");
+      return false;
+    }
+
+    if (!piece.GetMoves(move.Start, copy).Contains(move.End))
+    {
+      Console.WriteLine("Illegal move - Invalid move for peice");
       return false;
     }
 
     copy.MovePiece(move);
     if (IsKingInCheck(copy.Turn, copy))
     {
+      Console.WriteLine("Illegal move - Move would leave king in check");
       return false;
     }
 
