@@ -5,39 +5,77 @@ Game game = new(new ChessBoard());
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-Square start = new(7, 1);
-Square end = new(5, 2);
-
-Move move = new(start, end);
-Console.WriteLine(game.MakeMove(move));
+game.MakeMove("d2d4");
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-start = new(0, 1);
-end = new(2, 2);
-move = new(start, end);
-Console.WriteLine(game.MakeMove(move));
+game.MakeMove("d7d5");
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-start = new(6, 4);
-end = new(4, 4);
-move = new(start, end);
-Console.WriteLine(game.MakeMove(move));
+game.MakeMove("c1f4");
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-start = new(1, 4);
-end = new(3, 4);
-move = new(start, end);
-Console.WriteLine(game.MakeMove(move));
+game.MakeMove("c8f5");
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-start = new(6, 5);
-end = new(5, 5);
-move = new(start, end);
-Console.WriteLine(game.MakeMove(move));
+
+game.MakeMove("b1c3");
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
+game.MakeMove("b8c6");
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+game.MakeMove("d1d2");
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+game.MakeMove("d8d7");
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+game.MakeMove("e1c1");
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+game.MakeMove("e8c8");
+Console.WriteLine(game.Board.Serialize());
+game.Board.DisplayBoard();
+
+
+// Kingside Castling
+// game.MakeMove("e2e4");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("e7e5");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("f1d3");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("f8d6");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("g1f3");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("g8f6");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.MakeMove("e1g1");
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// Console.WriteLine(game.MakeMove("e8g8"));
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();

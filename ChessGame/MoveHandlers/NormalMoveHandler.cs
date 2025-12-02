@@ -4,7 +4,7 @@ using ChessGame.Types;
 
 namespace ChessGame.MoveHandlers;
 
-class NormalMove : MoveHandler
+class NormalMoveHandler : MoveHandler
 {
   public override bool HandleMove(Move move, ChessBoard board)
   {

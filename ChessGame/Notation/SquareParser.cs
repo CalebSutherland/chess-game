@@ -4,10 +4,8 @@ namespace ChessGame.Notation;
 
 public static class SquareParser
 {
-  public static Square? Deserialize(string san)
+  public static Square Deserialize(string san)
   {
-    if (san == "-") return null;
-
     if (san.Length != 2)
     {
       throw new ArgumentException("Invalid square notation.", nameof(san));

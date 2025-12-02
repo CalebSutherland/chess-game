@@ -25,7 +25,7 @@ public class MoveValidator(ChessBoard board)
     throw new ArgumentException($"No {color} king found", nameof(color));
   }
 
-  private static List<Square> GetAllMoves(Color color , ChessBoard board)
+  public static List<Square> GetAllMoves(Color color , ChessBoard board)
   {
     Piece?[,] grid = board.Grid;
     List<Square> moves = [];

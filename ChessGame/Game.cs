@@ -1,16 +1,23 @@
 using ChessGame.Board;
 using ChessGame.MoveHandlers;
+using ChessGame.Notation;
 
 namespace ChessGame;
 
-public class Game(ChessBoard board)
+public class Game
 {
-  public ChessBoard Board { get; } = board;
-  private readonly IMoveHandler MoveHandler = new NormalMove();
+  public ChessBoard Board { get; }
+  private readonly IMoveHandler Handler = new CastlingHandler();
+
+  public Game(ChessBoard board)
+  {
+    Board = board;
+    Handler.SetNext(new NormalMoveHandler());
+  }
 
   public bool MakeMove(Move move)
   {
-    if (MoveHandler.HandleMove(move, Board))
+    if (Handler.HandleMove(move, Board))
     {
       return true;
     }
@@ -18,5 +25,17 @@ public class Game(ChessBoard board)
     {
       return false;
     }
+  }
+
+  public bool MakeMove(string moveString)
+  {
+    string start = moveString[..2];
+    string end = moveString.Substring(2, 2);
+
+    Square startSquare = SquareParser.Deserialize(start);
+    Square endSquare = SquareParser.Deserialize(end);
+
+    Move move = new(startSquare, endSquare);
+    return MakeMove(move);
   }
 }

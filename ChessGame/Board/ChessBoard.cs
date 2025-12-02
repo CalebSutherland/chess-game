@@ -20,7 +20,7 @@ public class ChessBoard
     Grid = BoardParser.Deserialize(fenParts[0]);
     Turn = fenParts[1] == "b" ? Color.Black : Color.White;
     Castling = CastlingParser.Deserialize(fenParts[2]);
-    EnPassant = SquareParser.Deserialize(fenParts[3]);
+    EnPassant = fenParts[3] == "-" ? null : SquareParser.Deserialize(fenParts[3]);
     Halfmove = int.Parse(fenParts[4]);
     Fullmove = int.Parse(fenParts[5]);
   }
@@ -75,7 +75,7 @@ public class ChessBoard
     string board = BoardParser.Serialize(Grid);
     string turn = Turn == Color.White ? "w" : "b";
     string castling = CastlingParser.Serialize(Castling);
-    string enPassant = SquareParser.Serialize(EnPassant);
+    string enPassant = EnPassant == null ? "-" : SquareParser.Serialize(EnPassant);
     string half = Halfmove.ToString();
     string full = Fullmove.ToString();
 
@@ -114,5 +114,6 @@ public class ChessBoard
     }
     Console.WriteLine("-----------------------");
     Console.WriteLine("  | a b c d e f g h |");
+    Console.Write("\n");
   }
 }
