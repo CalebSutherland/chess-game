@@ -34,7 +34,7 @@ public class Pawn(Color color) : Piece(color)
     int[] offsets = [1, -1];
     foreach (int offset in offsets)
     {
-      Square diagnol = new(square.Row, square.Col + offset);
+      Square diagnol = new(square.Row + direction, square.Col + offset);
       if (board.IsValidSquare(diagnol))
       {
         Piece? piece = board.GetPiece(diagnol);
@@ -42,6 +42,15 @@ public class Pawn(Color color) : Piece(color)
         {
           moves.Add(diagnol);
         }
+
+        if (board.EnPassant != null) {
+          Square enPassantCapture = new(board.EnPassant.Row + direction, board.EnPassant.Col);
+          if (diagnol == enPassantCapture)
+          {
+            moves.Add(diagnol);
+          }
+        } 
+        
       }
     }
     return moves;

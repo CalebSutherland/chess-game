@@ -1,16 +1,6 @@
 ﻿using ChessGame;
 using ChessGame.Board;
 
-static void PreformMoves(Game game, List<string> moves)
-{
-  foreach (string move in moves)
-  {
-    game.MakeMove(move);
-    Console.WriteLine(game.Board.Serialize());
-    game.Board.DisplayBoard();
-  }
-}
-
 List<string> queenside = [
   "d2d4",
   "d7d5",
@@ -50,8 +40,35 @@ List<string> kingside = [
   "e8g8",
 ];
 
+List<string> enPassant = [
+  "d2d4",
+  "e7e5",
+  "d4d5",
+  "c7c5",
+  "d5c6",
+  "e5e4",
+  "f2f4",
+  "e4f3"
+];
+
+List<string> promotion = [
+  "a2a4",
+  "b7b5",
+  "a4b5",
+  "a7a5",
+  "b5b6",
+  "a5a4",
+  "b6b7",
+  "a4a3",
+  "b7c8q",
+  "a3b2",
+  "c2c4",
+  "b2c1q",
+  "d1a4",
+];
+
 Game game = new(new ChessBoard());
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-PreformMoves(game, queenside2);
+game.PreformMoves(promotion);

@@ -8,7 +8,11 @@ public class CastlingHandler : MoveHandler
   public override bool HandleMove(Move move, ChessBoard board)
   {
     Piece? piece = board.GetPiece(move.Start);
-    if (piece == null) return base.HandleMove(move, board);
+    if (piece == null)
+    {
+      Console.WriteLine("Illegal move - Invalid piece");
+      return false;
+    }
 
     int startRow = piece.Color == Color.White ? 7 : 0;
     bool isKingSide = move == new Move(new Square(startRow, 4), new Square(startRow, 6));
@@ -115,9 +119,8 @@ public class CastlingHandler : MoveHandler
 
   private static void PerformCastle(ChessBoard board, Move kingMove, Move rookMove)
   {   
-    board.EnPassant = null;
     CastlingUpdater.UpdateCastlingRights(kingMove, board);
-    board.Turn = board.Turn.Opposite();
+    board.EnPassant = null;
     board.MovePiece(kingMove);
     board.MovePiece(rookMove); 
   }
