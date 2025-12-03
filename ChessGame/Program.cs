@@ -63,12 +63,41 @@ List<string> promotion = [
   "b7c8q",
   "a3b2",
   "c2c4",
-  "b2c1q",
+  "b2c1r",
   "d1a4",
+];
+
+List<string> checkMate = [
+  "e2e4",
+  "e7e5",
+  "f1c4",
+  "a7a6",
+  "d1f3",
+  "a6a5",
+  "f3f7"
+];
+
+List<string> pawnCapture = [
+  "d2d4",
+  "e7e5",
+  "d4e5",
+  "f7f6",
+  "e5f6",
+  "g7f6",
+];
+
+List<string> staleMate = [
+  "g6h6"
 ];
 
 Game game = new(new ChessBoard());
 Console.WriteLine(game.Board.Serialize());
 game.Board.DisplayBoard();
 
-game.PreformMoves(promotion);
+game.PreformMoves(enPassant);
+
+// Game stale = new(new ChessBoard("7k/5Q2/6K1/8/8/8/8/8 w - - 0 1"));
+// Console.WriteLine(stale.Board.Serialize());
+// stale.Board.DisplayBoard();
+
+// stale.PreformMoves(staleMate);

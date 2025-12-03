@@ -1,4 +1,5 @@
 using ChessGame.Board;
+using ChessGame.Notation;
 using ChessGame.Pieces;
 using ChessGame.Types;
 
@@ -6,7 +7,7 @@ namespace ChessGame.MoveHandlers;
 
 public class EnPassantHandler : MoveHandler
 {
-  public override bool HandleMove(Move move, ChessBoard board)
+  public override bool HandleMove(Move move, ChessBoard board, SANBuilder sanBuilder)
   {
     Piece? piece = board.GetPiece(move.Start);
     if (piece == null)
@@ -30,6 +31,11 @@ public class EnPassantHandler : MoveHandler
 
         if (move.End == enPassantCapture)
         {
+          string start = SquareParser.Serialize(move.Start);
+          sanBuilder.Piece = start[0].ToString();
+          sanBuilder.Capture = true;
+          sanBuilder.Square = SquareParser.Serialize(move.End);
+
           // Should not have to update castling rights after en passant
           board.MovePiece(move);
           board.SetPiece(board.EnPassant, null);
@@ -38,6 +44,6 @@ public class EnPassantHandler : MoveHandler
         }
       }
     }
-    return base.HandleMove(move, board);
+    return base.HandleMove(move, board, sanBuilder);
   }
 }

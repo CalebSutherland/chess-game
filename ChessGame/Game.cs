@@ -1,4 +1,5 @@
 using ChessGame.Board;
+using ChessGame.GameState;
 using ChessGame.MoveHandlers;
 using ChessGame.Notation;
 using ChessGame.Pieces;
@@ -10,10 +11,12 @@ public class Game
 {
   public ChessBoard Board { get; }
   private readonly IMoveHandler _handler;
+  public string SAN { get; set; }
 
   public Game(ChessBoard board)
   {
     Board = board;
+    SAN = "";
     _handler = new CastlingHandler();
     _handler.SetNext(new EnPassantHandler())
       .SetNext(new PromotionHandler())
@@ -22,13 +25,28 @@ public class Game
 
   public bool MakeMove(Move move)
   {
-    if (_handler.HandleMove(move, Board))
+    SANBuilder sanBuilder = new();
+    if (_handler.HandleMove(move, Board, sanBuilder))
     {
       Board.Turn = Board.Turn.Opposite();
+      GameStatusChecker stateChecker = new(Board);
+
+      if (stateChecker.IsCheckMate())
+      {
+        sanBuilder.Checkmate = true;
+      }
+      else if (stateChecker.IsCheck())
+      {
+        sanBuilder.Check = true;
+      }
+
+      SAN = sanBuilder.Build();
+
       return true;
     }
     else
     {
+      SAN = "";
       return false;
     }
   }
@@ -58,8 +76,10 @@ public class Game
     foreach (string move in moves)
     {
       MakeMove(move);
+      GameStatusChecker stateChecker = new(Board);
+      Console.WriteLine(stateChecker.DetermineGameState());
       Console.WriteLine(Board.Serialize());
-      Console.WriteLine("Move: " + move);
+      Console.WriteLine("UCI: " + move + "    SAN: " + SAN);
       Board.DisplayBoard();
     }
   }

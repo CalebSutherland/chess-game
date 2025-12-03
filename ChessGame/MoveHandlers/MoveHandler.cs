@@ -1,11 +1,12 @@
 using ChessGame.Board;
+using ChessGame.Notation;
 
 namespace ChessGame.MoveHandlers;
 
 public interface IMoveHandler
 {
   IMoveHandler SetNext(IMoveHandler next);
-  bool HandleMove(Move move, ChessBoard board);
+  bool HandleMove(Move move, ChessBoard board, SANBuilder sanBuilder);
 }
 
 public abstract class MoveHandler : IMoveHandler
@@ -18,10 +19,10 @@ public abstract class MoveHandler : IMoveHandler
     return next;
   }
 
-  public virtual bool HandleMove(Move move, ChessBoard board)
+  public virtual bool HandleMove(Move move, ChessBoard board, SANBuilder sanBuilder)
   {
     if (_next != null)
-      return _next.HandleMove(move, board);
+      return _next.HandleMove(move, board, sanBuilder);
 
     return false;
   }

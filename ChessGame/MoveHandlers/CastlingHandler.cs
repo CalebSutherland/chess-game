@@ -1,11 +1,12 @@
 using ChessGame.Board;
+using ChessGame.Notation;
 using ChessGame.Pieces;
 using ChessGame.Types;
 namespace ChessGame.MoveHandlers;
 
 public class CastlingHandler : MoveHandler
 {
-  public override bool HandleMove(Move move, ChessBoard board)
+  public override bool HandleMove(Move move, ChessBoard board, SANBuilder sanBuilder)
   {
     Piece? piece = board.GetPiece(move.Start);
     if (piece == null)
@@ -35,6 +36,7 @@ public class CastlingHandler : MoveHandler
             return false;
           
           PerformCastle(board, move, new Move(new Square(startRow, 0), new Square(startRow, 3)));
+          sanBuilder.Queenside = true;
           return true;
         }
         if (isKingSide && board.Castling.KingsideW)
@@ -43,6 +45,7 @@ public class CastlingHandler : MoveHandler
             return false;
           
           PerformCastle(board, move, new Move(new Square(startRow, 7), new Square(startRow, 5)));
+          sanBuilder.Kingside = true;
           return true;
         }
       }
@@ -54,6 +57,7 @@ public class CastlingHandler : MoveHandler
             return false;
           
           PerformCastle(board, move, new Move(new Square(startRow, 0), new Square(startRow, 3)));
+          sanBuilder.Queenside = true;
           return true;
         }
         if (isKingSide && board.Castling.KingsideB)
@@ -62,11 +66,12 @@ public class CastlingHandler : MoveHandler
             return false;
           
           PerformCastle(board, move, new Move(new Square(startRow, 7), new Square(startRow, 5)));
+          sanBuilder.Kingside = true;
           return true;
         }
       }
     }
-    return base.HandleMove(move, board);
+    return base.HandleMove(move, board, sanBuilder);
   }
 
   private static bool CanCastleKingside(ChessBoard board, int row)
@@ -81,7 +86,7 @@ public class CastlingHandler : MoveHandler
     Color kingColor = board.Turn;
     Color enemyColor = kingColor.Opposite();
 
-     List<Square> attackedSquares = MoveValidator.GetAllMoves(enemyColor, board);
+     List<Square> attackedSquares = MoveValidator.GetAllSquaresUnderAttack(enemyColor, board);
 
      if (attackedSquares.Contains(new Square(row, 5)) || 
         attackedSquares.Contains(new Square(row, 6)))
@@ -105,7 +110,7 @@ public class CastlingHandler : MoveHandler
 
     Color kingColor = board.Turn;
     Color enemyColor = kingColor.Opposite();
-    List<Square> attackedSquares = MoveValidator.GetAllMoves(enemyColor, board);
+    List<Square> attackedSquares = MoveValidator.GetAllSquaresUnderAttack(enemyColor, board);
 
     if (attackedSquares.Contains(new Square(row, 2)) || 
         attackedSquares.Contains(new Square(row, 3)))

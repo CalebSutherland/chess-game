@@ -1,4 +1,5 @@
 using ChessGame.Board;
+using ChessGame.Notation;
 using ChessGame.Pieces;
 using ChessGame.Types;
 
@@ -6,7 +7,7 @@ namespace ChessGame.MoveHandlers;
 
 public class PromotionHandler : MoveHandler
 {
-  public override bool HandleMove(Move move, ChessBoard board)
+  public override bool HandleMove(Move move, ChessBoard board, SANBuilder sanBuilder)
   {
     Piece? piece = board.GetPiece(move.Start);
 
@@ -41,6 +42,18 @@ public class PromotionHandler : MoveHandler
           promotionPiece = move.Promotion;
         }
 
+        sanBuilder.Capture = board.GetPiece(move.End) != null;
+        if (sanBuilder.Capture)
+        {
+          string start = SquareParser.Serialize(move.Start);
+          sanBuilder.Piece = start[0].ToString();
+        }
+        sanBuilder.Square = SquareParser.Serialize(move.End);
+        if (promotionPiece != null)
+        {
+          sanBuilder.Promotion = "=" + promotionPiece.Symbol.ToString().ToUpper();
+        }
+
         CastlingUpdater.UpdateCastlingRights(move, board);
         board.EnPassant = null;
         board.MovePiece(move);
@@ -49,6 +62,6 @@ public class PromotionHandler : MoveHandler
       }
     }
     
-    return base.HandleMove(move, board);
+    return base.HandleMove(move, board, sanBuilder);
   }
 }
