@@ -90,14 +90,25 @@ List<string> staleMate = [
   "g6h6"
 ];
 
-Game game = new(new ChessBoard());
-Console.WriteLine(game.Board.Serialize());
-game.Board.DisplayBoard();
+List<string> twoAttackers = [
+  "f1d2"
+];
 
-game.PreformMoves(enPassant);
+// Game game = new(new ChessBoard());
+// Console.WriteLine(game.Board.Serialize());
+// game.Board.DisplayBoard();
+
+// game.PreformMoves(checkMate);
 
 // Game stale = new(new ChessBoard("7k/5Q2/6K1/8/8/8/8/8 w - - 0 1"));
 // Console.WriteLine(stale.Board.Serialize());
 // stale.Board.DisplayBoard();
 
 // stale.PreformMoves(staleMate);
+
+Game two = new(new ChessBoard("4k3/pppppppp/8/8/B3P3/3P1N2/PPP2PPP/R1BQKN1R w - - 0 1"));
+Console.WriteLine(two.Board.Serialize());
+two.Board.DisplayBoard();
+
+two.PreformMoves(twoAttackers);
+

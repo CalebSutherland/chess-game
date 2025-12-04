@@ -17,8 +17,7 @@ public class PromotionHandler : MoveHandler
       return false;
     }
 
-    MoveValidator validator = new(board);
-    if (!validator.IsLegalMove(move))
+    if (!MoveValidator.IsLegalMove(move, board))
     {
       return false;
     }

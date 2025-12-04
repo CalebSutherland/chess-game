@@ -23,8 +23,7 @@ public class EnPassantHandler : MoveHandler
         int enPassantRow = piece.Color == Color.White ? board.EnPassant.Row - 1 : board.EnPassant.Row + 1;
         Square enPassantCapture =  new(enPassantRow, board.EnPassant.Col);
 
-        MoveValidator validator = new(board);
-        if (!validator.IsLegalMove(move))
+        if (!MoveValidator.IsLegalMove(move, board))
         {
           return false;
         }

@@ -6,6 +6,7 @@ public class SANBuilder
   public bool Kingside { get; set; } = false;
   public bool Queenside { get; set; } = false;
   public string Piece { get; set; } = "";
+  public string TwoAttackers { get; set; } = "";
   public bool Capture {get; set; } = false;
   public string Square { get; set; } = "";
   public string Promotion { get; set; } = "";
@@ -18,6 +19,7 @@ public class SANBuilder
     if (Queenside) return "0-0-0";
 
     SAN += Piece;
+    SAN += TwoAttackers;
     if (Capture) SAN += "x";
     SAN += Square;
     SAN += Promotion;

@@ -3,10 +3,8 @@ using ChessGame.Types;
 
 namespace ChessGame.Board;
 
-public class MoveValidator(ChessBoard board)
+public static class MoveValidator
 {
-  private readonly ChessBoard _board = board;
-  
   private static Square FindKing(Color color, ChessBoard board)
   {
     for (int row = 0; row < board.Size; row++)
@@ -55,11 +53,11 @@ public class MoveValidator(ChessBoard board)
     return false;
   }
 
-  public bool IsLegalMove(Move move)
+  public static bool IsLegalMove(Move move, ChessBoard board)
   {
-    if (!_board.IsValidMove(move)) return false;
+    if (!board.IsValidMove(move)) return false;
 
-    ChessBoard copy = _board.Copy();
+    ChessBoard copy = board.Copy();
     Piece? piece = copy.GetPiece(move.Start);
 
     if (piece == null || piece.Color != copy.Turn) return false;
@@ -69,5 +67,54 @@ public class MoveValidator(ChessBoard board)
     if (IsKingInCheck(copy.Turn, copy)) return false;
 
     return true;
+  }
+
+  public static List<Move> GetAllLegalMoves(ChessBoard board)
+  {
+    List<Move> legalMoves = [];
+
+    for (int row = 0; row < board.Size; row++)
+    {
+      for (int col = 0; col < board.Size; col++)
+      {
+        Piece? piece = board.GetPiece(new Square(row, col));
+        if (piece != null && piece.Color == board.Turn)
+        {
+          Square start = new(row, col);
+          List<Square> current = piece.GetMoves(start, board);
+          foreach (Square end in current)
+          {
+            Move move = new(start, end);
+            if (IsLegalMove(move, board))
+            {
+              legalMoves.Add(move);
+            }
+          }
+        }
+      }
+    }
+    return legalMoves;
+  }
+
+  // Get multiple attackers of same piece type - used building SAN string
+  public static Square? GetMultipleAttackers(Move move, PieceType pieceType, ChessBoard board)
+  {
+    for (int row = 0; row < board.Size; row++)
+    {
+      for (int col = 0; col < board.Size; col++)
+      {
+        Square square = new(row, col);
+        Piece? piece = board.GetPiece(square);
+        if (piece != null && piece.Type == pieceType && square != move.Start)
+        {
+          List<Square> current = piece.GetMoves(square, board);
+          if (current.Contains(move.End))
+          {
+            return square;
+          }
+        }
+      }
+    }
+    return null;
   }
 }

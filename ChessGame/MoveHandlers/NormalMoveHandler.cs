@@ -16,8 +16,7 @@ class NormalMoveHandler : MoveHandler
       return false;
     } 
 
-    MoveValidator validator = new(board);
-    if (!validator.IsLegalMove(move))
+    if (!MoveValidator.IsLegalMove(move, board))
     {
       return false;
     }
@@ -34,15 +33,29 @@ class NormalMoveHandler : MoveHandler
       board.EnPassant = null;
     }
     
+    // Build the SAN string
+    string start = SquareParser.Serialize(move.Start);
     sanBuilder.Capture = board.GetPiece(move.End) != null;
+
     if (piece.Type == PieceType.Pawn && sanBuilder.Capture)
     {
-      string start = SquareParser.Serialize(move.Start);
       sanBuilder.Piece = start[0].ToString();
     }
     else if (piece.Type != PieceType.Pawn)
     {
       sanBuilder.Piece = piece.Symbol.ToString().ToUpper();
+      Square? secondAttacker = MoveValidator.GetMultipleAttackers(move, piece.Type, board);
+      if (secondAttacker != null)
+      {
+        if (move.Start.Col == secondAttacker.Col)
+        {
+          sanBuilder.TwoAttackers = start[1].ToString();
+        }
+        else
+        {
+          sanBuilder.TwoAttackers = start[0].ToString();
+        }
+      }
     }
     sanBuilder.Square = SquareParser.Serialize(move.End);
 
